@@ -64,3 +64,5 @@ color.diff=auto
 和~/.gitconfig），不过最终Git 实际采用的是最后一个。
 也可以直接查阅某个环境变量的设定，只要把特定的名字跟在后面即可，像这样：
 $ git config use
+
+000
