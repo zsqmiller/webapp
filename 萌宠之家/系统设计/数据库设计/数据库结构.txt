@@ -1,0 +1,109 @@
+#
+# 宠物之家数据库
+#
+DROP DATABASE IF EXISTS `PetHome`;
+CREATE DATABASE `PetHome` /*!40100 DEFAULT CHARACTER SET utf8 */;
+USE `PetHome`;
+#
+# 会员表
+#
+CREATE TABLE `pet_user` (
+  `UserId` bigint(11) unsigned NOT NULL AUTO_INCREMENT COMMENT '用户ID',
+  `UserName` varchar(100) default NULL COMMENT '用户名',
+  `NickName` varchar(50) default NULL COMMENT '昵称',
+  `Mobile` varchar(50) default NULL COMMENT '手机号或电话',
+  `Email` varchar(50) default NULL COMMENT '邮箱',
+  `weixin` varchar(50) default NULL COMMENT '微信号',
+  `SmallAvartar` varchar(300) default NULL COMMENT '小头像',
+  `MiddleAvartar` varchar(300) default NULL COMMENT '中头像',
+  `LargeAvartar` varchar(300) default NULL COMMENT '大头像',
+  `RegDate` datetime default NULL COMMENT '注册日期',
+  `City` varchar(20) default NULL COMMENT '城市',
+  `Province` varchar(20) default NULL COMMENT '省份',
+  `Password` varchar(255) default NULL COMMENT '加密密码',
+  `sex` int(11) default '1' COMMENT '性别1 男 2 女 0未知',
+  `birthday` datetime default NULL COMMENT '出身日期',
+  `type` int(11) default '1' COMMENT '类型1普通用户',
+  PRIMARY KEY  (`UserId`),
+  KEY `iUserName` (`UserName`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+# 宠物类型表。
+CREATE TABLE `pet_type` (
+  `id` int(11) NOT NULL auto_increment,
+  `parent_id` int(11) default NULL COMMENT '上级id',
+  `name` varchar(50) default NULL  COMMENT '名称',
+  `fieldOrder` int(11) default NULL  COMMENT '排序号',
+  `type` tinyint(1) default 0 COMMENT '层级',
+  `parent_str` varchar(1000) default NULL COMMENT '字父级关系比如0-1-2',
+  `description` varchar(1000) default NULL  COMMENT '简介',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+# 宠物表
+CREATE TABLE `pet_pet` (
+  `id` int(11) NOT NULL auto_increment,
+  `name` varchar(300) default NULL COMMENT '名字',
+  UserId bigint(11) default 0 COMMENT '用户id',
+  pettypeid int(11) default 0 COMMENT '宠物类型',
+  `habitus` int(11) default 0 COMMENT '体型',
+  `age` int(11) default 0 COMMENT '年龄',
+  height int(11) default 0 COMMENT '身高',
+  weight int(11) default 0 COMMENT '体重',
+  `Intro` varchar(3000) default NULL COMMENT '简介',
+  `MasterPic` varchar(300) default NULL COMMENT '主图',
+  `SmallAvartar` varchar(300) default NULL COMMENT '小头像',
+  address varchar(300) default NULL COMMENT '地址',
+  `City` varchar(20) default NULL COMMENT '城市',
+  `Province` varchar(20) default NULL COMMENT '省份',
+  longitude varchar(20) default NULL COMMENT '经纬度',
+  `createtime` datetime default NULL COMMENT '发布时间',
+  PRIMARY KEY  (`id`),
+  KEY `iUserId` (`UserId`),
+  KEY `iname` (`name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#宠物附属图片不含主图表。
+CREATE TABLE `pet_pic` (
+  `id` int(11) NOT NULL auto_increment,
+   petId int(11) default 0 COMMENT '宠物id',
+   `Pic` varchar(300) default NULL COMMENT '图片',
+   `SmallAvartar` varchar(300) default NULL COMMENT '缩略图',
+   `Title` varchar(20) default NULL COMMENT '标题',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+#评论表。
+CREATE TABLE `pet_comment` (
+`id` int(11) NOT NULL auto_increment,
+`content` varchar(3000) default NULL COMMENT '评论内容',
+`createtime` datetime default NULL COMMENT '评论时间',
+ UserId bigint(11) default 0 COMMENT '用户id',
+ petId int(11) default 0 COMMENT '宠物id',
+  PRIMARY KEY  (`id`),
+  KEY `ipetId` (`petId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#宠物首条评论表。
+CREATE TABLE `pet_petcomment` (
+`commentid` int(11) NOT NULL COMMENT '评论id',
+`content` varchar(3000) default NULL COMMENT '评论内容',
+`createtime` datetime default NULL COMMENT '评论时间',
+ UserId bigint(11) default 0 COMMENT '用户id',
+ petId int(11) default 0 COMMENT '宠物id',
+  PRIMARY KEY  (`petId`,commentid,UserId)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+#收藏表
+CREATE TABLE `pet_collect` (
+`id` int(11) NOT NULL auto_increment,
+`createtime` datetime default NULL COMMENT '收藏时间',
+ UserId bigint(11) default 0 COMMENT '用户id',
+ petId int(11) default 0 COMMENT '宠物id',
+  PRIMARY KEY  (`id`),
+  KEY `ipetId` (UserId,`petId`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+
+
+
+
